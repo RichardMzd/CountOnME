@@ -80,6 +80,6 @@ class SimpleCalcTests: XCTestCase {
 //    func testgivenNumber_WhenNumberDisplayed_ThenShowNumber() {
 //        simpleCalc.tappedNumber(numberText: "3")
 //        XCTAssertEqual(simpleCalc.testText == "0", simpleCalc.testText == "3")
-//    } 
+//    }  
 
 }
