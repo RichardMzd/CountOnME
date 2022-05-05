@@ -77,9 +77,15 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(simpleCalc.testText == "4", simpleCalc.testText == "0")
     }
     
-//    func testgivenNumber_WhenNumberDisplayed_ThenShowNumber() {
-//        simpleCalc.tappedNumber(numberText: "3")
-//        XCTAssertEqual(simpleCalc.testText == "0", simpleCalc.testText == "3")
-//    }  
+    func testgivenNumber_WhenNumberDisplayed_ThenShowNumber() {
+        simpleCalc.tappedNumber(numberText: "3")
+        XCTAssert(simpleCalc.testText == "3")
+    }
+    
+    func testGivenNumber_WhenAddOperator_ThenAddNumber() {
+        simpleCalc.operatorTapped(operatorTitle: "=")
+        XCTAssert(simpleCalc.canAddOperator)
+        
+    }
 
 }

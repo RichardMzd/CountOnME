@@ -29,10 +29,6 @@ class Calculator {
         return elements.last != "+" && elements.last != "-"  && elements.last != "x"  && elements.last != "÷"
     }
     
-    var expressionHaveResult: Bool {
-        return testText.firstIndex(of: "=") != nil
-    }
-    
     func expressionIsCorrect(_ elements: [String]) -> Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
