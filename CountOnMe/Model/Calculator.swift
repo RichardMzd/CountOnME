@@ -100,10 +100,8 @@ class Calculator {
                 }
                 if isInteger {
                     operationsToReduce[index - 1] = "\(Int(result))"
-                    print("multi")
                 } else {
                     operationsToReduce[index - 1] = "\(result)"
-                    print("div")
                 }
                 operationsToReduce.remove(at: index + 1)
                 operationsToReduce.remove(at: index)

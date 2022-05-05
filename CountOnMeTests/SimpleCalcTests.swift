@@ -72,6 +72,34 @@ class SimpleCalcTests: XCTestCase {
           XCTAssertEqual(expected, result)
       }
     
+    func testGivenNumbers2Plus2_WhenCalculate_ThenResultIs4() {
+          let inputs = ["2", "+", "2"]
+          let expected = "4"
+          let result = simpleCalc.resultGiven(inputs)
+          XCTAssertEqual(expected, result)
+      }
+    
+    func testGivenNumbers8Minus2_WhenCalculate_ThenResultIs6() {
+        let inputs = ["8", "-", "2"]
+        let expected = "6"
+        let result = simpleCalc.resultGiven(inputs)
+        XCTAssertEqual(expected, result)
+    }
+    
+    func testGivenNumbers2Minus8_WhenCalculate_ThenResultIs6() {
+        let inputs = ["2", "-", "8"]
+        let expected = "-6"
+        let result = simpleCalc.resultGiven(inputs)
+        XCTAssertEqual(expected, result)
+    }
+    
+    func testGivenNumbers3Multiply3_WhenCalculate_ThenResultIs9() {
+          let inputs = ["3", "x", "3"]
+          let expected = "9"
+          let result = simpleCalc.resultGiven(inputs)
+          XCTAssertEqual(expected, result)
+      }
+    
     func testGivenReset_WhenResetTapped_ThenResetOn() {
       simpleCalc.resetButton()
         XCTAssertEqual(simpleCalc.testText == "4", simpleCalc.testText == "0")
@@ -85,7 +113,6 @@ class SimpleCalcTests: XCTestCase {
     func testGivenNumber_WhenAddOperator_ThenAddNumber() {
         simpleCalc.operatorTapped(operatorTitle: "=")
         XCTAssert(simpleCalc.canAddOperator)
-        
     }
 
 }
