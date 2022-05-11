@@ -10,7 +10,7 @@ import Foundation
 
 //Protocol to communicate with the viewController
 protocol CalculatorDelegate: AnyObject {
-//    Methods to communicate with the data to viewController
+    //    Methods to communicate with the data to viewController
     func AppendText(text: String)
     func showAlertMessage(title: String, message: String)
 }
@@ -24,14 +24,14 @@ class Calculator {
     }
     
     func expressionHaveEnoughElement(_ elements: [String]) -> Bool {
-           return elements.count >= 3
-       }
+        return elements.count >= 3
+    }
     
     func expressionIsCorrect(_ elements: [String]) -> Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
     
-// Method that displays an alert message when you try to put two operators in a row
+    // Method that displays an alert message when you try to put two operators in a row
     func operatorTapped(operatorTitle: String) {
         if expressionIsCorrect(elements) == false {
             delegate?.showAlertMessage(title: "Erreur", message: "Un opérateur est déja mis !")
@@ -41,32 +41,31 @@ class Calculator {
         }
     }
     
-// Method that displayed a number in the textView when tapped
+    // Method that displayed a number in the textView when tapped
     func tappedNumber(numberText: String) {
         numbersShown += "\(numberText)"
         delegate?.AppendText(text: numbersShown)
     }
     
-// Method that allows the reset
+    // Method that allows the reset
     func resetButton() {
         numbersShown = " "
         delegate?.AppendText(text: "0")
     }
     
-// Method that give result when equal button is tapped
+    // Method that give result when equal button is tapped
     func resultGiven(_ elements: [String]) -> String? {
         var operationsToReduce = elements
         guard expressionHaveEnoughElement(elements) && expressionIsCorrect(elements) else {
             delegate?.showAlertMessage(title: "Erreur", message: "Entrez une expression correcte")
             return nil
         }
-//      Methods that handle calculations based on the type of operation
+        //      Methods that handle calculations based on the type of operation
         while operationsToReduce.count > 1 {
             guard let firstResult = priorityOperation(operationsToReduce) else {
                 return nil
             }
             if firstResult.count == 1 {
-                print("resultat-div")
                 return firstResult.first
             } else {
                 guard let finalResult = nonPriorityOperation(firstResult) else {
@@ -78,8 +77,8 @@ class Calculator {
         }
         return operationsToReduce.first
     }
-
-// Method that handle multiply and division (Also no dividing by 0)
+    
+    // Method that handle multiply and division (Also no dividing by 0)
     private func priorityOperation(_ elements: [String]) -> [String]? {
         var operationsToReduce = elements
         while operationsToReduce.contains("x") || operationsToReduce.contains("÷") {
@@ -98,7 +97,6 @@ class Calculator {
                         return nil
                     }
                     result = Float(left / right)
-                    print("testBeta")
                 default: return nil
                 }
                 if isInteger {
@@ -115,7 +113,7 @@ class Calculator {
         return operationsToReduce
     }
     
-// Method that handle addition & substraction
+    // Method that handle addition & substraction
     private func nonPriorityOperation(_ elements: [String]) -> [String]? {
         var operationsToReduce = elements
         let operand = operationsToReduce[1]
@@ -133,7 +131,7 @@ class Calculator {
             if isInteger {
                 operationsToReduce.insert("\(Int(result))", at: 0)
             } else {
-                operationsToReduce.insert("\(result)", at: 0)
+                operationsToReduce.insert("\(Float(result))", at: 0)
             }
             delegate?.AppendText(text: "\(operationsToReduce[0])")
         }

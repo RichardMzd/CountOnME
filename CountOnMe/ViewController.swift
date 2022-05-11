@@ -42,12 +42,12 @@ class ViewController: UIViewController {
 
 extension ViewController : CalculatorDelegate {
     
-//    Method that display and save the numbers, operations & result directly in textView
+    //    Method that display and save the numbers, operations & result directly in textView
     func AppendText(text: String) {
         textView.text = text
     }
     
-//    Method that handle the differents alert messages
+    //    Method that handle the differents alert messages
     func showAlertMessage(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
