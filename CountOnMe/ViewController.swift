@@ -15,10 +15,6 @@ class ViewController: UIViewController {
     
     var calculator = Calculator()
     
-    var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
-    }
-    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,16 +36,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        _ = calculator.resultGiven(elements)
+        _ = calculator.resultGiven(calculator.elements)
     }
 }
 
 extension ViewController : CalculatorDelegate {
     
-    func testAppendText(text: String) {
+//    Method that display and save the numbers, operations & result directly in textView
+    func AppendText(text: String) {
         textView.text = text
     }
     
+//    Method that handle the differents alert messages
     func showAlertMessage(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

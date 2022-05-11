@@ -7,8 +7,11 @@
 //
 
 import Foundation
+
+//Protocol to communicate with the viewController
 protocol CalculatorDelegate: AnyObject {
-    func testAppendText(text: String)
+//    Methods to communicate with the data to viewController
+    func AppendText(text: String)
     func showAlertMessage(title: String, message: String)
 }
 
@@ -16,73 +19,72 @@ class Calculator {
     
     weak var delegate: CalculatorDelegate?
     
-    var testText: String = ""
-    var elements: [String] {
-        return testText.split(separator: " ").map { "\($0)" }
+    var numbersShown: String = ""
+    var elements: [String] { return numbersShown.split(separator: " ").map { "\($0)" }
     }
     
     func expressionHaveEnoughElement(_ elements: [String]) -> Bool {
            return elements.count >= 3
        }
     
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"  && elements.last != "x"  && elements.last != "÷"
-    }
-    
     func expressionIsCorrect(_ elements: [String]) -> Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
     
+// Method that displays an alert message when you try to put two operators in a row
     func operatorTapped(operatorTitle: String) {
-        if canAddOperator == false {
+        if expressionIsCorrect(elements) == false {
             delegate?.showAlertMessage(title: "Erreur", message: "Un opérateur est déja mis !")
         } else {
-            testText += " \(operatorTitle) "
-            delegate?.testAppendText(text: " \(testText) ")
+            numbersShown += " \(operatorTitle) "
+            delegate?.AppendText(text: " \(numbersShown) ")
         }
     }
     
+// Method that displayed a number in the textView when tapped
     func tappedNumber(numberText: String) {
-        testText += "\(numberText)"
-        delegate?.testAppendText(text: testText)
+        numbersShown += "\(numberText)"
+        delegate?.AppendText(text: numbersShown)
     }
     
+// Method that allows the reset
     func resetButton() {
-        testText = " "
-        delegate?.testAppendText(text: "0")
+        numbersShown = " "
+        delegate?.AppendText(text: "0")
     }
     
+// Method that give result when equal button is tapped
     func resultGiven(_ elements: [String]) -> String? {
         var operationsToReduce = elements
         guard expressionHaveEnoughElement(elements) && expressionIsCorrect(elements) else {
             delegate?.showAlertMessage(title: "Erreur", message: "Entrez une expression correcte")
-            print("ok")
             return nil
         }
-        
+//      Methods that handle calculations based on the type of operation
         while operationsToReduce.count > 1 {
             guard let firstResult = priorityOperation(operationsToReduce) else {
                 return nil
             }
             if firstResult.count == 1 {
+                print("resultat-div")
                 return firstResult.first
             } else {
                 guard let finalResult = nonPriorityOperation(firstResult) else {
                     return nil
                 }
                 operationsToReduce = finalResult
-                testText = "\(operationsToReduce[0])"
+                numbersShown = "\(operationsToReduce[0])"
             }
         }
         return operationsToReduce.first
     }
-    
+
+// Method that handle multiply and division (Also no dividing by 0)
     private func priorityOperation(_ elements: [String]) -> [String]? {
         var operationsToReduce = elements
         while operationsToReduce.contains("x") || operationsToReduce.contains("÷") {
             
             if let index = operationsToReduce.firstIndex(where: {$0 == "x" || $0 == "÷"}), let left = Float(operationsToReduce[index - 1]), let right = Float(operationsToReduce[index + 1])  {
-                print("test")
                 var result: Float
                 var isInteger: Bool {
                     return floor(result) == result
@@ -96,6 +98,7 @@ class Calculator {
                         return nil
                     }
                     result = Float(left / right)
+                    print("testBeta")
                 default: return nil
                 }
                 if isInteger {
@@ -105,13 +108,14 @@ class Calculator {
                 }
                 operationsToReduce.remove(at: index + 1)
                 operationsToReduce.remove(at: index)
-                delegate?.testAppendText(text: "\(operationsToReduce[0])")
-                testText = "\(operationsToReduce[0])"
+                delegate?.AppendText(text: "\(operationsToReduce[0])")
+                numbersShown = "\(operationsToReduce[0])"
             }
         }
         return operationsToReduce
     }
     
+// Method that handle addition & substraction
     private func nonPriorityOperation(_ elements: [String]) -> [String]? {
         var operationsToReduce = elements
         let operand = operationsToReduce[1]
@@ -131,7 +135,7 @@ class Calculator {
             } else {
                 operationsToReduce.insert("\(result)", at: 0)
             }
-            delegate?.testAppendText(text: "\(operationsToReduce[0])")
+            delegate?.AppendText(text: "\(operationsToReduce[0])")
         }
         return operationsToReduce
     }
