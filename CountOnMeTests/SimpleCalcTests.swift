@@ -103,7 +103,12 @@ class SimpleCalcTests: XCTestCase {
     }
     
     func testGivenNumber_WhenAddOperator_ThenAddNumber() {
-        simpleCalc.operatorTapped(operatorTitle: "=")
+        simpleCalc.operatorTapped(operatorTitle: "+")
+        XCTAssert(simpleCalc.expressionIsCorrect([]))
+    }
+    
+    func testGivenNumber_whenAddOperator_ThenShowAlert() {
+        simpleCalc.delegate?.showAlertMessage(title: "Erreur", message: "Un opérateur est déja mis")
         XCTAssert(simpleCalc.expressionIsCorrect([]))
     }
 }
