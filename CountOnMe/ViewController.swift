@@ -43,7 +43,7 @@ class ViewController: UIViewController {
 extension ViewController : CalculatorDelegate {
     
     //    Method that display and save the numbers, operations & result directly in textView
-    func AppendText(text: String) {
+    func appendText(text: String) {
         textView.text = text
     }
     

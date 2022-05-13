@@ -11,7 +11,7 @@ import Foundation
 //Protocol to communicate with the viewController
 protocol CalculatorDelegate: AnyObject {
     //    Methods to communicate with the data to viewController
-    func AppendText(text: String)
+    func appendText(text: String)
     func showAlertMessage(title: String, message: String)
 }
 
@@ -37,20 +37,20 @@ class Calculator {
             delegate?.showAlertMessage(title: "Erreur", message: "Un opérateur est déja mis !")
         } else {
             numbersShown += " \(operatorTitle) "
-            delegate?.AppendText(text: " \(numbersShown) ")
+            delegate?.appendText(text: " \(numbersShown) ")
         }
     }
     
     // Method that displayed a number in the textView when tapped
     func tappedNumber(numberText: String) {
         numbersShown += "\(numberText)"
-        delegate?.AppendText(text: numbersShown)
+        delegate?.appendText(text: numbersShown)
     }
     
     // Method that allows the reset
     func resetButton() {
         numbersShown = " "
-        delegate?.AppendText(text: "0")
+        delegate?.appendText(text: "0")
     }
     
     // Method that give result when equal button is tapped
@@ -106,7 +106,7 @@ class Calculator {
                 }
                 operationsToReduce.remove(at: index + 1)
                 operationsToReduce.remove(at: index)
-                delegate?.AppendText(text: "\(operationsToReduce[0])")
+                delegate?.appendText(text: "\(operationsToReduce[0])")
                 numbersShown = "\(operationsToReduce[0])"
             }
         }
@@ -133,7 +133,7 @@ class Calculator {
             } else {
                 operationsToReduce.insert("\(Float(result))", at: 0)
             }
-            delegate?.AppendText(text: "\(operationsToReduce[0])")
+            delegate?.appendText(text: "\(operationsToReduce[0])")
         }
         return operationsToReduce
     }
